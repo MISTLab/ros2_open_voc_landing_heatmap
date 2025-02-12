@@ -62,33 +62,14 @@ The `RESTARTING` state is aimed at avoiding getting stuck in a local minima wher
 
 
 ## Implementation and Use
-The system was designed as a ROS 2 service and a main processing node. It expects to have available topics publishing RGB images, depth images and the coordinate frames (world / map and UAV / camera) - the coordinate frames are used only to read the UAV's above ground level (AGL) altitude, and it will publish velocity commands. The nodes themselves don't have any special dependency in relation to ROS 2 (tested only on Galactic), but they expect a system with Pytorch 1.13 and Huggingface Transformers 4.30.2. You can find a docker image and instruction in how to use it [here](https://github.com/ricardodeazambuja/ros2_quad_sim_python), but launch the docker container (from the directory where you cloned this repository, don´t forget to ask git to get the submodules with `git clone --recurse-submodules`) using:
-```
-./launch_ros2_desktop.sh -g --image ricardodeazambuja/ros2_quad_sim_python:pytorch
-```
-(you can find the Dockerfiles [here](https://github.com/ricardodeazambuja/ros2_quad_sim_python/tree/main/docker))
-
-With the docker container started, remember to build the packages:
-```
-colcon build --symlink-install --packages-select ros2_open_voc_landing_heatmap ros2_open_voc_landing_heatmap_srv
-```
-And
-```
-source install/setup.bash
-```
-
-We created two launch files that allow to test the system:
-### 1. Using our adaptation of the CARLA Simulator for use with UAVs (see the instructions [here](https://github.com/ricardodeazambuja/ros2_quad_sim_python) for more details):
-
-```
-ros2 launch ros2_open_voc_landing_heatmap start.launch.py
-```
-
-### 2. Using our [Aerial View Simulator](https://github.com/ricardodeazambuja/ros2_satellite_aerial_view_simulator) that uses real-world satellite images:
-```
-ros2 launch ros2_open_voc_landing_heatmap start_aerialview.launch.py
-```
-Use `--show-args` to see explanations about the available parameters.
+The system was designed as a ROS 2 service and a main processing node. It expects to have available topics publishing RGB images, depth images and the coordinate frames (world / map and UAV / camera) - the coordinate frames are used only to read the UAV's above ground level (AGL) altitude, and it will publish velocity commands. The nodes themselves don't have any special dependency in relation to ROS 2 (tested only on Galactic), but they expect a system with Pytorch 1.13 and Huggingface Transformers 4.30.2. </br>
+git clone --recurse-submodules https://github.com/MISTLab/DOVESEI.git </br>
+docker run --runtime nvidia -it --rm --network=host --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -e DISPLAY=$DISPLAY -v $(pwd):/home haechanmarkbong/blabberseg </br>
+sudo apt-get update  </br>
+sudo apt-get upgrade </br>
+colcon build --symlink-install --packages-select ros2_satellite_aerial_view_simulator ros2_open_voc_landing_heatmap ros2_open_voc_landing_heatmap_srv </br>
+source install/setup.bash </br>
+./experiements.bash </br>
 
 ## Results from Initial Pilot Experiments
 ### Using Satellite Images [(Aerial View Simulator)](https://github.com/ricardodeazambuja/ros2_satellite_aerial_view_simulator):
