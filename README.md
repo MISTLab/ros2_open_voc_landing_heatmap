@@ -60,7 +60,6 @@ Considering the previous state, `WAITING`, reached its maximum allowed time (aju
 #### 6. `RESTARTING`: Restart the coarse search by moving away from the last tentative landing spot
 The `RESTARTING` state is aimed at avoiding getting stuck in a local minima where the UAV would try to land at the same spot over and over. It uses the current processed landing heatmap to choose the direction to move. If there are more than one, it chooses the second best to set its direction, otherwise it simply moves forward. It keeps this movement for a certain amount of time (ajustable parameter) before switching to `SEARCHING` where the process of finding a safe place to land the UAB will literally restart.
 
-
 ## Implementation and Use
 The system was designed as a ROS 2 service and a main processing node. It expects to have available topics publishing RGB images, depth images and the coordinate frames (world / map and UAV / camera) - the coordinate frames are used only to read the UAV's above ground level (AGL) altitude, and it will publish velocity commands. The nodes themselves don't have any special dependency in relation to ROS 2 (tested only on Galactic), but they expect a system with Pytorch 1.13 and Huggingface Transformers 4.30.2. </br>
 git clone --recurse-submodules https://github.com/MISTLab/DOVESEI.git </br>
@@ -69,6 +68,7 @@ sudo apt-get update  </br>
 sudo apt-get upgrade </br>
 colcon build --symlink-install --packages-select ros2_satellite_aerial_view_simulator ros2_open_voc_landing_heatmap ros2_open_voc_landing_heatmap_srv </br>
 source install/setup.bash </br>
+In ros2_satellite_aerial_view_simulator/ros2_satellite_aerial_view_simulator/aerialimages.py line 31, change the base_url to https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z} </br>
 ./experiements.bash </br>
 
 ## Results from Initial Pilot Experiments
